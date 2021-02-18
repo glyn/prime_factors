@@ -20,16 +20,17 @@ fn prime_factors(n: i64) -> String {
 
 fn p_factors(n: i64) -> HashMap<i64, i64> {
     let fac = seive((n as f64).sqrt() as i64);
-    for i in fac {
-        if n % i == 0 {
-            let mut f = p_factors(n / i);
-            *f.entry(i).or_insert(0) += 1;
-            return f;
+    let mut factors = HashMap::new();
+    let mut rem = n;
+    while rem > 1 {
+        for i in &fac {
+            if rem % i == 0 {
+                rem = rem / i;
+                *factors.entry(*i).or_insert(0) += 1;
+            }
         }
     }
-    let mut h = HashMap::new();
-    h.insert(n, 1);
-    h
+    factors
 }
 
 // seive returns all the prime less than or equal to the input value.
