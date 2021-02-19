@@ -22,12 +22,13 @@ fn p_factors(n: i64) -> HashMap<i64, i64> {
     let fac = sieve(n);
     let mut factors = HashMap::new();
     let mut rem = n;
-    while rem > 1 {
-        for i in &fac {
-            if rem % i == 0 {
-                rem = rem / i;
-                *factors.entry(*i).or_insert(0) += 1;
-            }
+    for i in &fac {
+        while rem % i == 0 {
+            rem = rem / i;
+            *factors.entry(*i).or_insert(0) += 1;
+        }
+        if rem == 1 {
+            break;
         }
     }
     factors
