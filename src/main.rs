@@ -19,7 +19,7 @@ fn prime_factors(n: i64) -> String {
 }
 
 fn p_factors(n: i64) -> HashMap<i64, i64> {
-    let fac = sieve(n / 2);
+    let fac = sieve(n);
     let mut factors = HashMap::new();
     let mut rem = n;
     while rem > 1 {
@@ -36,18 +36,18 @@ fn p_factors(n: i64) -> HashMap<i64, i64> {
 // sieve returns all the prime less than or equal to the input value.
 // See: https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
 fn sieve(n: i64) -> Vec<i64> {
-    let mut s: Vec<bool> = Vec::with_capacity(n as usize); // after sieving, true at index i means i+1 not prime
-    s.push(true); // 1 is not prime
+    let mut s: Vec<bool> = Vec::with_capacity(n as usize); // after sieving, true at index i means i+1 is prime
+    s.push(false); // 1 is not prime
     for _ in 1..n {
-        s.push(false);
+        s.push(true);
     }
     let mut i = 2;
     while i as f64 <= (n as f64).sqrt() {
-        if !s[i as usize - 1] {
+        if s[i as usize - 1] {
             // if p is prime
             let mut j = i * i;
             while j <= n {
-                s[j as usize - 1] = true;
+                s[j as usize - 1] = false;
                 j += i;
             }
         }
@@ -55,7 +55,7 @@ fn sieve(n: i64) -> Vec<i64> {
     }
     let mut primes = vec![];
     for i in 0..s.len() {
-        if !s[i] {
+        if s[i] {
             primes.push((i + 1) as i64)
         }
     }
@@ -74,5 +74,6 @@ mod tests {
     fn basics_prime_factors() {
         testing(7775460, "(2**2)(3**3)(5)(7)(11**2)(17)");
         testing(17 * 17 * 93 * 677, "(3)(17**2)(31)(677)");
+        testing(19, "(19)");
     }
 }
