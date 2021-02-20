@@ -19,7 +19,7 @@ fn prime_factors(n: i64) -> String {
 }
 
 fn p_factors(n: i64) -> HashMap<i64, i64> {
-    let fac = sieve(n);
+    let fac = sieve((n as f64).sqrt() as i64);
     let mut factors = HashMap::new();
     let mut rem = n;
     for i in &fac {
@@ -30,6 +30,11 @@ fn p_factors(n: i64) -> HashMap<i64, i64> {
         if rem == 1 {
             break;
         }
+    }
+    if rem > 1 {
+        // rem is indivisible by all the primes up to sqrt(n) >= sqrt(rem),
+        // so rem is prime
+        *factors.entry(rem).or_insert(0) += 1
     }
     factors
 }
@@ -75,6 +80,8 @@ mod tests {
     fn basics_prime_factors() {
         testing(7775460, "(2**2)(3**3)(5)(7)(11**2)(17)");
         testing(17 * 17 * 93 * 677, "(3)(17**2)(31)(677)");
-        testing(19, "(19)");
+        testing(123863, "(123863)");
+        testing(933555431, "(7537)(123863)");
+        testing(342217392, "(2**4)(3)(11)(43)(15073)");
     }
 }
