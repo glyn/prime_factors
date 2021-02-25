@@ -26,7 +26,7 @@ fn p_factors<'a>(n: i64) -> HashMap<i64, i64> {
             *factors.entry(i).or_insert(0) += 1;
         }
         if rem == 1 {
-            break;
+            break; // this case may benefit from the sieve being an iterator
         }
     }
     if rem > 1 {
@@ -45,6 +45,7 @@ struct Sieve {
 
 // new_sieve returns an iterator of all the prime less than or equal to the input value.
 // See: https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+// An iterator allows lazy evaluation of the primes as not all of them may be needed.
 fn new_sieve(n: i64) -> Sieve {
     let mut v = Sieve {
         s: Vec::with_capacity(n as usize),
