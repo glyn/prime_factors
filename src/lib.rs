@@ -1,7 +1,5 @@
 use std::collections::HashMap;
 
-fn main() {}
-
 fn prime_factors(n: i64) -> String {
     let f = p_factors(n);
     let mut res = String::new();
