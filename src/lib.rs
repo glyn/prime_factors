@@ -50,7 +50,7 @@ fn new_sieve(n: i64) -> Sieve {
     let mut v = Sieve {
         s: Vec::with_capacity(n as usize),
         p: 2,
-        sqrt_n: (n as f64).sqrt() as usize,
+        sqrt_n: ((n as f64).sqrt() + 0.5f64) as usize, // do we really need to add 0.5?
     };
     v.s.push(false); // 1 is not prime
     for _ in 1..n {
@@ -96,6 +96,13 @@ mod tests {
     #[test]
     fn sieve() {
         assert_eq!(new_sieve(5).collect::<Vec<i64>>(), vec![2, 3, 5]);
+        assert_eq!(
+            new_sieve(121).collect::<Vec<i64>>(),
+            vec![
+                2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79,
+                83, 89, 97, 101, 103, 107, 109, 113
+            ]
+        );
     }
 
     fn testing(n: i64, exp: &str) -> () {
