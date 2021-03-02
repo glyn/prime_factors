@@ -53,7 +53,7 @@ fn sieve(n: i64) -> impl Generator<Yield = i64, Return = ()> {
         let mut i = 2;
         while i as f64 <= (n as f64).sqrt() {
             if s[i as usize - 1] {
-                // if p is prime
+                // if i is prime
                 yield i as i64;
                 let mut j = i * i;
                 while j <= n {
@@ -65,6 +65,7 @@ fn sieve(n: i64) -> impl Generator<Yield = i64, Return = ()> {
         }
         while (i as usize) < s.len() {
             if s[i as usize] {
+                // if i + 1 is prime
                 yield i + 1;
             }
             i += 1;
