@@ -54,6 +54,7 @@ fn sieve(n: i64) -> impl Generator<Yield = i64, Return = ()> {
         while i as f64 <= (n as f64).sqrt() {
             if s[i as usize - 1] {
                 // if p is prime
+                yield i as i64;
                 let mut j = i * i;
                 while j <= n {
                     s[j as usize - 1] = false;
@@ -62,10 +63,11 @@ fn sieve(n: i64) -> impl Generator<Yield = i64, Return = ()> {
             }
             i += 1
         }
-        for i in 0..s.len() {
-            if s[i] {
-                yield (i + 1) as i64;
+        while (i as usize) < s.len() {
+            if s[i as usize] {
+                yield i + 1;
             }
+            i += 1;
         }
     };
     generator
